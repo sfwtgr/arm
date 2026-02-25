@@ -1,4 +1,5 @@
 import os
+import time  # ← เพิ่มตรงนี้
 import requests
 import yfinance as yf
 import google.generativeai as genai
@@ -26,7 +27,7 @@ def send_line_message(token, message):
     payload = {'messages': [{'type': 'text', 'text': message}]}
     try:
         res = requests.post(url, headers=headers, json=payload, timeout=10)
-        res.raise_for_status()  # จะ raise ถ้า status 4xx/5xx
+        res.raise_for_status()
         print("✅ ส่ง LINE สำเร็จ")
         return True
     except requests.exceptions.RequestException as e:
@@ -44,6 +45,7 @@ def main():
             price = info.get('currentPrice') or info.get('regularMarketPrice', 'N/A')
             analysis = get_analysis(sym, price)
             report += f"\n📌 {sym}: {price} USD\n💡 {analysis}\n"
+            time.sleep(5)  # ← เพิ่มตรงนี้
         except Exception as e:
             print(f"❌ ดึงข้อมูล {sym} ไม่สำเร็จ: {e}")
             report += f"\n📌 {sym}: ดึงข้อมูลไม่สำเร็จ\n"
