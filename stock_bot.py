@@ -7,7 +7,7 @@ genai.configure(api_key=os.environ.get('GEMINI_API_KEY'))
 
 def get_analysis(name, price):
     try:
-        model = genai.GenerativeModel('gemini-1.5-flash')
+        model = genai.GenerativeModel('gemini-2.0-flash')
         prompt = f"วิเคราะห์หุ้น {name} ราคา {price} USD สรุปสั้นๆ 1 บรรทัดภาษาไทย"
         response = model.generate_content(prompt)
         return response.text.strip()
